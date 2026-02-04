@@ -2,179 +2,212 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Rose Day</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rose Day 💖</title>
 
 <style>
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  cursor:none;
+  font-family: 'Poppins', sans-serif;
 }
 
 body{
-  height:100vh;
-  background:radial-gradient(circle at top,#2a0015,#050505);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:'Poppins',sans-serif;
+  background: radial-gradient(circle at top, #1a001a, #000);
+  color:white;
   overflow:hidden;
 }
 
-/* Soft glowing cursor */
+/* Glowing cursor */
 .cursor{
   position:fixed;
-  width:16px;
-  height:16px;
+  width:18px;
+  height:18px;
   border-radius:50%;
-  background:rgba(255,105,180,0.8);
-  box-shadow:0 0 25px rgba(255,105,180,0.6);
   pointer-events:none;
+  box-shadow:0 0 15px #ff4dd2, 0 0 30px #ff99ff;
   transform:translate(-50%,-50%);
   z-index:999;
 }
 
-/* Card */
-.card{
-  width:92%;
-  max-width:420px;
-  padding:35px 25px 40px;
+/* Pages */
+.page{
+  position:absolute;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
   text-align:center;
-  border-radius:24px;
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(14px);
-  box-shadow:0 0 50px rgba(255,105,180,0.35);
-  animation:fadeUp 1.6s ease;
+  padding:20px;
 }
 
-@keyframes fadeUp{
-  from{opacity:0; transform:translateY(40px);}
-  to{opacity:1; transform:translateY(0);}
+.page.active{
+  display:flex;
+}
+
+.box{
+  background: rgba(255,255,255,0.06);
+  border-radius:25px;
+  padding:30px;
+  box-shadow:0 0 25px rgba(255,0,200,0.4);
+  backdrop-filter: blur(10px);
+  max-width:360px;
+  width:100%;
+}
+
+/* Glow text */
+.glow{
+  font-size:2.2rem;
+  text-shadow:0 0 15px #ff4dd2, 0 0 30px #ff99ff;
+}
+
+.soft{
+  margin-top:15px;
+  opacity:0.9;
+}
+
+/* Button */
+.btn{
+  margin-top:25px;
+  padding:12px 30px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(45deg,#ff4dd2,#b300ff);
+  color:white;
+  font-size:1rem;
+  box-shadow:0 0 20px #ff4dd2;
 }
 
 /* Rose */
 .rose{
-  font-size:72px;
-  margin-bottom:18px;
-  animation:roseGlow 2.5s infinite alternate;
+  font-size:90px;
+  animation: glowPulse 2s infinite;
+  margin:20px 0;
 }
 
-@keyframes roseGlow{
-  from{text-shadow:0 0 18px crimson;}
-  to{text-shadow:0 0 45px hotpink;}
+@keyframes glowPulse{
+  0%{ text-shadow:0 0 10px pink;}
+  50%{ text-shadow:0 0 35px hotpink;}
+  100%{ text-shadow:0 0 10px pink;}
 }
 
-/* Text */
-h1{
-  color:#ff7fbf;
-  font-size:34px;
-  margin-bottom:10px;
-  text-shadow:0 0 30px rgba(255,120,190,0.8);
-}
-
-.intro{
-  color:#ffd1e6;
-  font-size:17px;
-  margin-bottom:18px;
-  line-height:1.6;
-}
-
-/* Hidden message */
-.message{
-  display:none;
-  margin-top:18px;
-  animation:fadeIn 1.4s forwards;
-}
-
-.message h2{
-  color:#ff9fd6;
-  font-size:28px;
-  margin-bottom:8px;
-}
-
-.message p{
-  color:#ffe0ef;
-  font-size:16px;
-  line-height:1.6;
-}
-
-@keyframes fadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
-}
-
-/* Soft floating lights */
-.spark{
+/* Hearts floating */
+.heart{
   position:absolute;
-  width:6px;
-  height:6px;
-  background:rgba(255,150,200,0.8);
-  border-radius:50%;
-  animation:float 6s linear infinite;
+  bottom:-20px;
+  font-size:18px;
+  animation: float 6s linear infinite;
 }
 
 @keyframes float{
-  from{transform:translateY(0); opacity:0.9;}
-  to{transform:translateY(-160px); opacity:0;}
+  from{ transform:translateY(0); opacity:1;}
+  to{ transform:translateY(-120vh); opacity:0;}
 }
+
+/* Fireworks emojis */
+.fire{
+  position:absolute;
+  font-size:22px;
+  animation: pop 2s ease-out infinite;
+}
+
+@keyframes pop{
+  0%{transform:scale(0); opacity:1;}
+  100%{transform:scale(1.8); opacity:0;}
+}
+
 </style>
 </head>
-
 <body>
 
-<div class="cursor"></div>
+<div class="cursor" id="cursor"></div>
 
-<!-- Music -->
-<audio id="music" src="song.mp3" loop></audio>
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <div class="box">
+    <h1 class="glow">Tap to Begin 💖</h1>
+    <p class="soft">Something special is waiting…</p>
+    <button class="btn" onclick="nextPage()">Open</button>
+  </div>
+</div>
 
-<div class="card" onclick="openRose()">
-  <div class="rose">🌹</div>
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <div class="box">
+    <div class="rose" onclick="roseClick()">🌹</div>
+    <h1 class="glow">Happy Rose Day</h1>
+    <p class="soft">Tap the rose 💗</p>
+  </div>
+</div>
 
-  <h1>Tap the Rose</h1>
-  <p class="intro">
-    A small surprise,<br>
-    made with love and warm feelings.
-  </p>
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+  <div class="box">
+    <h1 class="glow">I Love You 💞</h1>
+    <p class="soft">Sending a warm hug 🤍</p>
+    <button class="btn" onclick="nextPage()">Next</button>
+  </div>
+</div>
 
-  <div class="message" id="msg">
-    <h2>Happy Rose Day</h2>
-    <p>
-      This rose is for your smile,<br>
-      your kindness,<br>
-      and the way you make moments special 💕
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+  <div class="box">
+    <h1 class="glow">My Forever ♾️</h1>
+    <p class="soft">
+      No matter where life takes us,<br>
+      my heart chooses you — always.
     </p>
   </div>
 </div>
 
+<audio id="music" src="song.mp3" loop></audio>
+
 <script>
-/* Cursor movement */
-const cursor=document.querySelector(".cursor");
+let page=1;
+const music=document.getElementById("music");
+
+function nextPage(){
+  document.getElementById("p"+page).classList.remove("active");
+  page++;
+  document.getElementById("p"+page).classList.add("active");
+  if(page===2) music.play();
+}
+
+function roseClick(){
+  nextPage();
+  fireworks();
+}
+
+/* Cursor glow */
 document.addEventListener("mousemove",e=>{
   cursor.style.left=e.clientX+"px";
   cursor.style.top=e.clientY+"px";
 });
 
-/* Open & music */
-function openRose(){
-  const music=document.getElementById("music");
-  music.volume=0.7;
-  music.play();
+/* Hearts */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💜";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=4+Math.random()*4+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+},300);
 
-  document.getElementById("msg").style.display="block";
+/* Fireworks */
+function fireworks(){
+  for(let i=0;i<15;i++){
+    const f=document.createElement("div");
+    f.className="fire";
+    f.innerHTML=Math.random()>0.5?"🎆":"🎇";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*60+"vh";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),2000);
+  }
 }
-
-/* Soft background sparks */
-function spark(){
-  const s=document.createElement("div");
-  s.className="spark";
-  s.style.left=(Math.random()*100)+"vw";
-  s.style.bottom="0px";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),6000);
-}
-setInterval(spark,450);
 </script>
 
 </body>
