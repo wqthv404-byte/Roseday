@@ -145,7 +145,7 @@ body{
 <div class="page" id="p3">
   <div class="box">
     <h1 class="glow">I Love You 💞</h1>
-    <p class="soft">Sending a warm hug 🤍</p>
+    <p class="soft">Sending a warm hug 🫂🤍</p>
     <button class="btn" onclick="nextPage()">Next</button>
   </div>
 </div>
@@ -189,7 +189,7 @@ document.addEventListener("mousemove",e=>{
 setInterval(()=>{
   const h=document.createElement("div");
   h.className="heart";
-  h.innerHTML="💜";
+  h.innerHTML="💜🌹";
   h.style.left=Math.random()*100+"vw";
   h.style.animationDuration=4+Math.random()*4+"s";
   document.body.appendChild(h);
@@ -201,7 +201,7 @@ function fireworks(){
   for(let i=0;i<15;i++){
     const f=document.createElement("div");
     f.className="fire";
-    f.innerHTML=Math.random()>0.5?"🎆":"🎇";
+    f.innerHTML=Math.random()>0.5?"✨💫":"🎇";
     f.style.left=Math.random()*100+"vw";
     f.style.top=Math.random()*60+"vh";
     document.body.appendChild(f);
