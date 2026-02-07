@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Rose Day</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+body{
+  background:black;
+  color:white;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+/* pages */
+.page{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  padding:20px;
+}
+
+.active{display:flex;}
+
+h1{
+  font-size:2.2em;
+  text-shadow:0 0 20px hotpink;
+  margin-bottom:15px;
+}
+
+/* box */
+.box{
+  background:rgba(255,255,255,0.05);
+  padding:20px;
+  border-radius:20px;
+  backdrop-filter:blur(10px);
+  box-shadow:0 0 25px rgba(255,0,150,.5);
+  max-width:350px;
+  width:100%;
+}
+
+/* button */
+.btn{
+  margin-top:15px;
+  padding:10px 18px;
+  border:none;
+  border-radius:20px;
+  background:hotpink;
+  color:white;
+  font-size:1em;
+}
+
+/* collage */
+.photo-collage{
+  position:relative;
+  width:100%;
+  height:240px;
+  margin-top:15px;
+}
+
+.pic{
+  position:absolute;
+  width:45%;
+  height:55%;
+  object-fit:cover;
+  border-radius:15px;
+  border:3px solid white;
+  box-shadow:0 0 15px hotpink;
+  cursor:pointer;
+  transition:transform .5s;
+  animation:float 3s ease-in-out infinite alternate;
+}
+
+.pic:nth-child(1){top:0;left:0;}
+.pic:nth-child(2){top:0;right:0;}
+.pic:nth-child(3){bottom:0;left:5%;}
+.pic:nth-child(4){bottom:0;right:5%;}
+
+@keyframes float{
+  from{transform:translateY(0);}
+  to{transform:translateY(-10px);}
+}
+
+/* viewer */
+#viewer{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  backdrop-filter:blur(8px);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+#viewer img{
+  max-width:90%;
+  max-height:80%;
+  border-radius:20px;
+  box-shadow:0 0 30px hotpink;
+  animation:zoom 3s infinite alternate;
+}
+
+@keyframes zoom{
+  from{transform:scale(1);}
+  to{transform:scale(1.1);}
+}
+
+/* sparkles */
+.sparkle{
+  position:fixed;
+  width:6px;
+  height:6px;
+  background:white;
+  border-radius:50%;
+  box-shadow:0 0 10px white;
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  to{transform:translateY(100vh);opacity:0;}
+}
+
+/* roses falling */
+.rose{
+  position:fixed;
+  top:-20px;
+  animation:fall linear forwards;
+  font-size:18px;
+}
+
+p{opacity:.9;margin-top:10px;line-height:1.4;}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <div class="box">
+    <h1>Tap the Rose 🌹</h1>
+    <button class="btn" onclick="nextPage(2)">Open</button>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <div class="box">
+    <h1>Happy Rose Day ❤️</h1>
+
+    <div class="photo-collage">
+      <img src="img1.jpg" class="pic">
+      <img src="img2.jpg" class="pic">
+      <img src="img3.jpg" class="pic">
+      <img src="img4.jpg" class="pic">
+    </div>
+
+    <button class="btn" onclick="nextPage(3)">Next 💞</button>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <div class="box">
+    <h1>My Forever ♾️</h1>
+    <p>
+      Sending a warm hug 🤍<br>
+      No matter what happens,<br>
+      my heart is always with you.
+    </p>
+  </div>
+</div>
+
+<!-- image viewer -->
+<div id="viewer">
+  <img id="fullImg">
+</div>
+
+<audio id="music" src="song.mp3"></audio>
+
+<script>
+const pages=document.querySelectorAll(".page");
+function nextPage(n){
+  pages.forEach(p=>p.classList.remove("active"));
+  document.getElementById("page"+n).classList.add("active");
+  document.getElementById("music").play();
+}
+
+/* viewer + swipe */
+const pics=document.querySelectorAll(".pic");
+const viewer=document.getElementById("viewer");
+const fullImg=document.getElementById("fullImg");
+
+let current=0;
+pics.forEach((pic,i)=>{
+  pic.onclick=()=>{
+    current=i;
+    showImg();
+    viewer.style.display="flex";
+  }
+});
+
+function showImg(){
+  fullImg.src=pics[current].src;
+}
+
+viewer.onclick=()=>viewer.style.display="none";
+
+/* swipe */
+let startX=0;
+viewer.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+viewer.addEventListener("touchend",e=>{
+  let endX=e.changedTouches[0].clientX;
+  if(endX-startX>50) current=(current-1+pics.length)%pics.length;
+  else if(startX-endX>50) current=(current+1)%pics.length;
+  showImg();
+});
+
+/* sparkles */
+setInterval(()=>{
+  if(!document.getElementById("page2").classList.contains("active")) return;
+  const s=document.createElement("div");
+  s.className="sparkle";
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDuration=2+Math.random()*2+"s";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),4000);
+},200);
+
+/* roses */
+setInterval(()=>{
+  if(!document.getElementById("page3").classList.contains("active")) return;
+  const r=document.createElement("div");
+  r.className="rose";
+  r.innerHTML="🌹";
+  r.style.left=Math.random()*100+"vw";
+  r.style.animationDuration=3+Math.random()*3+"s";
+  document.body.appendChild(r);
+  setTimeout(()=>r.remove(),6000);
+},400);
+</script>
+
+</body>
+        </html>
