@@ -277,7 +277,7 @@ body::before{
   <img id="fullImg">
 </div>
 
-<audio id="music" src="song.mp3"></audio>
+<audio id="music" src="song.mp3" preload="auto"></audio>
 
 <script>
 const pages=document.querySelectorAll(".page");
@@ -339,6 +339,17 @@ setInterval(()=>{
   document.body.appendChild(r);
   setTimeout(()=>r.remove(),6000);
 },400);
+  window.addEventListener("load", ()=>{
+    const m = document.getElementById("music");
+    // try play, agar browser block kare to user click se
+    m.play().catch(()=>console.log("Autoplay blocked, will play on click"));
+});
+  window.addEventListener("click", ()=>{
+  const m = document.getElementById("music");
+  if(m.paused){
+    m.play();
+  }
+},{once:true}); // ek hi click pe trigger
 </script>
 
 </body>
