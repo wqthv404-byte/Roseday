@@ -110,6 +110,8 @@ h1{
   border-radius:20px;
   box-shadow:0 0 30px hotpink;
   animation:zoom 3s infinite alternate;
+  border:2px solid white;
+  
 }
 
 @keyframes zoom{
@@ -141,6 +143,67 @@ h1{
 }
 
 p{opacity:.9;margin-top:10px;line-height:1.4;}
+  /* ===== IMPROVEMENTS ===== */
+
+/* smooth page fade */
+.page{
+  animation: fade .6s ease;
+}
+@keyframes fade{
+  from{opacity:0; transform:scale(.98);}
+  to{opacity:1; transform:scale(1);}
+}
+
+/* better spacing */
+h1{ margin-bottom:18px; }
+p{ margin-top:10px; line-height:1.5; }
+
+/* better readability */
+.box{
+  background: rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.15);
+}
+
+/* button upgrade */
+.btn{
+  transition:.3s;
+  box-shadow:0 0 15px rgba(255,105,180,.4);
+}
+.btn:active{
+  transform:scale(.95);
+}
+.btn:hover{
+  box-shadow:0 0 25px hotpink;
+}
+
+/* image glow upgrade */
+.pic{
+  box-shadow:0 0 25px rgba(255,20,147,.8);
+}
+
+/* animated background */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background: radial-gradient(circle at 20% 30%, rgba(255,0,120,.15), transparent),
+              radial-gradient(circle at 80% 70%, rgba(255,0,200,.15), transparent);
+  animation: bgmove 6s infinite alternate;
+  z-index:-1;
+}
+
+@keyframes bgmove{
+  from{transform:scale(1);}
+  to{transform:scale(1.2);}
+}
+
+/* mobile better */
+@media(max-width:500px){
+  .box{
+    padding:18px;
+    max-width:95%;
+  }
+}
 </style>
 </head>
 
@@ -151,6 +214,7 @@ p{opacity:.9;margin-top:10px;line-height:1.4;}
   <div class="box">
     <h1> Click Me🌹</h1>
     <button class="btn" onclick="nextPage(2)">Open</button>
+    <p style="opacity:.6;font-size:.9em;">Tap to continue ➜</p>
   </div>
 </div>
 
