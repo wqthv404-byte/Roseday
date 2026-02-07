@@ -204,6 +204,32 @@ body::before{
     max-width:95%;
   }
 }
+  /* My Forever animation */
+.forever{
+  animation: foreverEnter 1s ease, glowPulse 2s infinite alternate;
+}
+
+/* entry */
+@keyframes foreverEnter{
+  from{
+    opacity:0;
+    transform:scale(.7);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+/* glowing */
+@keyframes glowPulse{
+  from{
+    text-shadow:0 0 10px hotpink, 0 0 20px hotpink;
+  }
+  to{
+    text-shadow:0 0 20px deeppink, 0 0 40px deeppink;
+  }
+}
 </style>
 </head>
 
@@ -237,7 +263,7 @@ body::before{
 <!-- PAGE 3 -->
 <div class="page" id="page3">
   <div class="box">
-    <h1>My Forever ♾️</h1>
+    <h1 class="forever">My Forever ♾️</h1>
     <p>
       Sending a warm hug 🫂🤍<br>
       No matter what happens,<br>
